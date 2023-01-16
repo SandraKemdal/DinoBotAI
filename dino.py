@@ -2,10 +2,8 @@ import pygame, random, neat
 
 pygame.init()
 
-# Global Constants
 CLOCK = pygame.time.Clock()
 BLACK = (0,0,0)
-GREEN = (255,0,0)
 WHITE = (255,255,255)
 FPS = 30
 FONT = pygame.font.SysFont('calibri', 22)
@@ -146,14 +144,14 @@ def game_loop(genomes, config):
                     ge.pop(i)
                     nets.pop(i)
                     
-        # activation
+        # Activation
         for i, dinosaur in enumerate(dinosaurs):
             output = nets[i].activate((dinosaur.rect.y,obstacle.rect.x - dinosaur.rect.x))
             if output[0] > 0.5 and dinosaur.rect.y == dinosaur.Y_POS:
                 dinosaur.jump = True
                 dinosaur.run = False
 
-        # stats
+        # Stats
         text_1 = FONT.render(f'Dinosaurs Alive: {str(len(dinosaurs))}', True, BLACK)
         text_2 = FONT.render(f'Generation: {population.generation+1}', True, BLACK)
         text_3 = FONT.render(f'Game Speed: {str(move_speed)}', True, BLACK)
@@ -161,7 +159,7 @@ def game_loop(genomes, config):
         DISPLAY.blit(text_2, (700, 80))
         DISPLAY.blit(text_3, (700, 110))
         
-        # score
+        # Score
         score += 1
         if score % 100 == 0:
             move_speed += 1
@@ -171,9 +169,8 @@ def game_loop(genomes, config):
         CLOCK.tick(FPS)
         pygame.display.update()
         
-# Run game
 neat_config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, "config.txt")
 population = neat.Population(neat_config)
 stats = neat.StatisticsReporter()
 population.add_reporter(stats)
-population.run(game_loop,50) # 50 is the maximum no of generation allowed for the AI game
+population.run(game_loop, 50)
